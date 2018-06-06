@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Snake</title>
+	<style>
+		body{
+			background: #000000;
+			font-family:arial;
+		}
+
+		
+		canvas{
+			background:#000000;
+			border:5px #ffffff solid;
+		}
+		
+		.container{
+			color:#ffffff;k2
+			font-family:;
+			font-size:50px;
+			font-weight:bold;
+		}
+		
+		#stats{
+			width:300px;
+			background:#000000;
+			padding:10px;
+			font-size:30px;
+			font-weight:bold;
+			color:#ffffff;
+			overflow:auto;
+		}
+
+	</style>
+</head>
+<body>
+<center>
+<div class="container">
+SNAKE
+</div>
+<canvas id="gc" width="400" height="400"></canvas>
+<script>
+window.onload=function() {
+    canv=document.getElementById("gc");
+    ctx=canv.getContext("2d");
+    document.addEventListener("keydown",keyPush);
+    setInterval(game,1000/20);
+}
+px=py=10;
+gs=tc=20;
+ax=ay=15;
+xv=1;
+yv=0;
+trail=[];
+tail = 2;
+score=0;
+function game() {
+    px+=xv;
+    py+=yv;
+    if(px<0) {
+        px= tc-1;
+    }
+    if(px>tc-1) {
+        px= 0;
+    }
+    if(py<0) {
+        py= tc-1;
+    }
+    if(py>tc-1) {
+        py= 0;
+    }
+    ctx.fillStyle="black";
+    ctx.fillRect(0,0,canv.width,canv.height);
+ 
+    ctx.fillStyle="lime";
+    for(var i=0;i<trail.length;i++) {
+        ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
+        if(trail[i].x==px && trail[i].y==py) {
+			alert("Game Over\nPress Enter to Continue");
+            tail = 2;
+			score=0;
+			document.getElementById("score").innerHTML="Your Score: "+0;
+        }
+    }
+    trail.push({x:px,y:py});
+    while(trail.length>tail) {
+    trail.shift();
+    }
+ 
+    if(ax==px && ay==py) {
+        tail++;
+		score++;
+		document.getElementById("score").innerHTML="Your Score: "+score;
+        ax=Math.floor(Math.random()*tc);
+        ay=Math.floor(Math.random()*tc);
+    }
+    ctx.fillStyle="red";
+    ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+}
+function keyPush(evt) {
+    switch(evt.keyCode) {
+        case 37:
+            xv=-1;yv=0;
+            break;
+        case 38:
+            xv=0;yv=-1;
+            break;
+        case 39:
+            xv=1;yv=0;
+            break;
+        case 40:
+            xv=0;yv=1;
+            break;
+    }
+}
+function right(){
+	xv=-1;yv=0;
+}
+
+function up(){
+	xv=0;yv=-1;
+}
+
+function left(){
+	xv=1;yv=0;
+}
+
+function down(){
+	xv=0;yv=1;
+}
+</script>
+
+<div id="stats">
+	<div id="score">Your Score: 0</div>
+</div>
+</center>
+</body>
